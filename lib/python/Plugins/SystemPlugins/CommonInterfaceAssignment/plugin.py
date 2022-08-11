@@ -64,6 +64,8 @@ class CIselectMainMenu(Screen):
 						appname = _("Slot %d") % (slot + 1) + " - " + _("init modules")
 					elif state == 2:
 						appname = _("Slot %d") % (slot + 1) + " - " + eDVBCI_UI.getInstance().getAppName(slot)
+					elif state == 3:
+						appname = _("Slot %d") % (slot + 1) + " - " + _("module disabled")
 					self.list.append((appname, ConfigNothing(), 0, slot))
 		else:
 			self.list.append((_("no CI slots found"), ConfigNothing(), 1, -1))
@@ -314,22 +316,22 @@ class CIconfigMenu(Screen):
 		try:
 			tree = parse(self.filename).getroot()
 			for slot in tree.findall("slot"):
-				read_slot = getValue(slot.findall("id"), False).encode("UTF-8")
+				read_slot = getValue(slot.findall("id"), False)
 				i = 0
 				for caid in slot.findall("caid"):
-					read_caid = caid.get("id").encode("UTF-8")
+					read_caid = caid.get("id")
 					self.selectedcaid.append((str(read_caid), str(read_caid), i))
 					self.usingcaid.append(int(read_caid, 16))
 					i += 1
 
 				for service in slot.findall("service"):
-					read_service_name = service.get("name").encode("UTF-8")
-					read_service_ref = service.get("ref").encode("UTF-8")
+					read_service_name = service.get("name")
+					read_service_ref = service.get("ref")
 					self.read_services.append(read_service_ref)
 
 				for provider in slot.findall("provider"):
-					read_provider_name = provider.get("name").encode("UTF-8")
-					read_provider_dvbname = provider.get("dvbnamespace").encode("UTF-8")
+					read_provider_name = provider.get("name")
+					read_provider_dvbname = provider.get("dvbnamespace")
 					self.read_providers.append((read_provider_name, read_provider_dvbname))
 
 				self.ci_config.append((int(read_slot), (self.read_services, self.read_providers, self.usingcaid)))

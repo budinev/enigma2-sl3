@@ -57,7 +57,7 @@ class PluginComponent:
 						except Exception as exc:
 							print("Plugin ", c + "/" + pluginname, "failed to load:", exc)
 							# supress errors due to missing plugin.py* files (badly removed plugin)
-							for fn in ('plugin.py', 'plugin.pyo'):
+							for fn in ('plugin.py', 'plugin.pyc'):
 								if os.path.exists(os.path.join(path, fn)):
 									self.warnings.append((c + "/" + pluginname, str(exc)))
 									from traceback import print_exc
@@ -76,9 +76,10 @@ class PluginComponent:
 							plugins = [plugins]
 
 						for p in plugins:
-							p.path = path
-							p.updateIcon(path)
-							new_plugins.append(p)
+							if p:
+								p.path = path
+								p.updateIcon(path)
+								new_plugins.append(p)
 
 						keymap = os.path.join(path, "keymap.xml")
 						if fileExists(keymap):
