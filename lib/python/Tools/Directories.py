@@ -338,7 +338,7 @@ def fileHas(f, content, mode="r"):
 def getRecordingFilename(basename, dirname=None):
 	# Filter out non-allowed characters.
 	non_allowed_characters = "/.\\:*?<>|\""
-	basename = basename.replace("\x86", "").replace("\x87", "")
+	basename = basename.replace("\xc2\x86", "").replace("\xc2\x87", "")
 	filename = ""
 	for c in basename:
 		if c in non_allowed_characters or ord(c) < 32:
@@ -524,7 +524,8 @@ def getExtension(file):
 
 def mediafilesInUse(session):
 	from Components.MovieList import KNOWN_EXTENSIONS
-	files = [os.path.basename(x[2]) for x in lsof() if getExtension(x[2]) in KNOWN_EXTENSIONS]
+	TRANSMISSION_PART = fileExists("/usr/bin/transmission-daemon") and os.popen("pidof transmission-daemon").read() and ".part" or "N/A"
+	files = [os.path.basename(x[2]) for x in lsof() if getExtension(x[2]) in (KNOWN_EXTENSIONS, TRANSMISSION_PART)]
 	service = session.nav.getCurrentlyPlayingServiceOrGroup()
 	filename = service and service.getPath()
 	if filename:
