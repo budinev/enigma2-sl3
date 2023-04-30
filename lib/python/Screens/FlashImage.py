@@ -1,3 +1,4 @@
+from Screens.ChoiceBox import ChoiceBox
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Screens.Standby import getReasons
@@ -16,7 +17,9 @@ from Tools.Downloader import downloadWithProgress
 from Tools.HardwareInfo import HardwareInfo
 from Tools.Multiboot import getImagelist, getCurrentImage, getCurrentImageMode, deleteImage, restoreImages
 import os
+import re
 from urllib.request import urlopen, Request
+import xml.etree.ElementTree
 import json
 import time
 import zipfile
@@ -24,20 +27,7 @@ import shutil
 import tempfile
 import struct
 
-from enigma import eEPGCache
-
-FEED_URLS = [
-	("openATV", "https://images.mynonpublic.com/openatv/json/"),
-	("OpenBH", "https://images.openbh.net/json/"),
-	("Open Vision", "https://images.openvision.dedyn.io/json/"),
-	("OpenViX", "https://www.openvix.co.uk/json/"),
-	("OpenHDF", "https://flash.hdfreaks.cc/openhdf/json/"),
-	("TeamBlue", "https://images.teamblue.tech/json/"),
-	("Open8eIGHT", "http://openeight.de/json/"),
-	("OpenDROID", "https://opendroid.org/json/"),
-	("EGAMI", "https://image.egami-image.com/json/")
-]
-
+from enigma import eEPGCache, eEnv
 
 def checkimagefiles(files):
 	return len([x for x in files if 'kernel' in x and '.bin' in x or x in ('uImage', 'rootfs.bin', 'root_cfe_auto.bin', 'root_cfe_auto.jffs2', 'oe_rootfs.bin', 'e2jffs2.img', 'rootfs.tar.bz2', 'rootfs.ubi')]) == 2
@@ -50,10 +40,13 @@ class SelectImage(Screen):
 		self.imagesList = {}
 		self.setIndex = 0
 		self.expanded = []
+		self.url_feeds = xml.etree.ElementTree.parse(eEnv.resolve("${datadir}/enigma2/imagefeeds.xml")).getroot()
+		self.selectedImage = self.getSelectedImageFeed("OpenPLi")
 		self.setTitle(_("Select image"))
 		self["key_red"] = StaticText(_("Cancel"))
 		self["key_green"] = StaticText()
-		self["key_yellow"] = StaticText()
+		self["key_yellow"] = StaticText(_("Initialize Multiboot")) if SystemInfo["canKexec"] else StaticText()
+		self["key_blue"] = StaticText(_("Other Images"))
 		self["description"] = Label()
 		self["list"] = ChoiceList(list=[ChoiceEntryComponent('', ((_("Retrieving image list - Please wait...")), "Waiter"))])
 
@@ -63,7 +56,8 @@ class SelectImage(Screen):
 			"cancel": boundFunction(self.close, None),
 			"red": boundFunction(self.close, None),
 			"green": self.keyOk,
-			"yellow": self.keyDelete,
+			"yellow": self.keyYellow,
+			"blue": self.otherImages,
 			"up": self.keyUp,
 			"down": self.keyDown,
 			"left": self.keyLeft,
@@ -77,28 +71,37 @@ class SelectImage(Screen):
 
 		self.callLater(self.getImagesList)
 
+	def getSelectedImageFeed(self, selectedImage):
+		for feed_info in self.url_feeds:
+			if feed_info.tag == "ImageFeed" and feed_info.attrib["name"] == selectedImage:
+				return feed_info.attrib
+
 	def getImagesList(self):
 
 		def getImages(path, files):
-			for file in [x for x in files if os.path.splitext(x)[1] == ".zip" and model in x]:
-				try:
-					if checkimagefiles([x.split(os.sep)[-1] for x in zipfile.ZipFile(file).namelist()]):
-						imagetyp = _("Downloaded Images")
-						if 'backup' in file.split(os.sep)[-1]:
-							imagetyp = _("Fullbackup Images")
-						if imagetyp not in self.imagesList:
-							self.imagesList[imagetyp] = {}
-						self.imagesList[imagetyp][file] = {'link': file, 'name': file.split(os.sep)[-1]}
-				except:
-					pass
+			for file in files:
+				if os.path.splitext(file)[1] == ".zip" and model in file and file.split(os.sep)[-1].startswith(self.selectedImage["name"].replace(" ","").lower()):
+					try:
+						if checkimagefiles([x.split(os.sep)[-1] for x in zipfile.ZipFile(file).namelist()]):
+							imagetyp = _("Downloaded Images")
+							if 'backup' in file.split(os.sep)[-1]:
+								imagetyp = _("Fullbackup Images")
+							if imagetyp not in self.imagesList:
+								self.imagesList[imagetyp] = {}
+							self.imagesList[imagetyp][file] = {'link': file, 'name': file.split(os.sep)[-1]}
+					except:
+						pass
 
 		model = HardwareInfo().get_machine_name()
 
 		if not self.imagesList:
 			if not self.jsonlist:
-				url = "http://downloads.openpli.org/json/%s" % model
+				if "model" in self.selectedImage:
+					for expression in eval(self.url_feeds.find(self.selectedImage["model"]).text):
+						model = re.sub(expression[0], expression[1], model)
+				url = "%s%s" % (self.selectedImage["url"], model)
 				try:
-					self.jsonlist = dict(json.load(urlopen(url, timeout=15)))
+					self.jsonlist = dict(json.load(urlopen(url, timeout=3)))
 				except:
 					print("[FlashImage] getImagesList Error: Unable to load json data from URL '%s'!" % url)
 				alternative_imagefeed = config.usage.alternative_imagefeed.value
@@ -106,17 +109,9 @@ class SelectImage(Screen):
 					if "http" in alternative_imagefeed:
 						url = "%s%s" % (config.usage.alternative_imagefeed.value, model)
 						try:
-							self.jsonlist.update(dict(json.load(urlopen(url, timeout=15))))
+							self.jsonlist.update(dict(json.load(urlopen(url, timeout=3))))
 						except:
 							print("[FlashImage] getImagesList Error: Unable to load json data from alternative URL '%s'!" % url)
-					elif alternative_imagefeed == "all":
-							for link in FEED_URLS:
-								url = "%s%s" % (link[1], model)
-								try:
-									req = Request(url, None, {"User-agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5"})
-									self.jsonlist.update(dict(json.load(urlopen(req, timeout=10))))
-								except:
-									print("[FlashImage] getImagesList Error: Unable to load json data from %s URL '%s'!" % (link[0], url))
 
 			self.imagesList = dict(self.jsonlist)
 
@@ -154,7 +149,7 @@ class SelectImage(Screen):
 				self.setIndex = 0
 			self.selectionChanged()
 		else:
-			self.session.openWithCallback(self.close, MessageBox, _("Cannot find images - please try later"), type=MessageBox.TYPE_ERROR, timeout=3)
+			self["list"].setList([ChoiceEntryComponent('', ((_("Cannot find images - please try later or select an alternate image")), "Waiter"))])
 
 	def keyOk(self):
 		currentSelected = self["list"].l.getCurrentSelection()
@@ -170,9 +165,10 @@ class SelectImage(Screen):
 	def reloadImagesList(self):
 		self.imagesList = {}
 		self.jsonlist = {}
+		self.expanded = []
 		self.getImagesList()
 
-	def keyDelete(self):
+	def keyYellow(self):
 		currentSelected = self["list"].l.getCurrentSelection()[0][1]
 		if not("://" in currentSelected or currentSelected in ["Expander", "Waiter"]):
 			try:
@@ -185,11 +181,24 @@ class SelectImage(Screen):
 				self.getImagesList()
 			except:
 				self.session.open(MessageBox, _("Cannot delete downloaded image"), MessageBox.TYPE_ERROR, timeout=3)
+		elif SystemInfo["canKexec"]:
+			self.session.open(KexecInit)
+
+	def otherImages(self):
+		self.session.openWithCallback(self.otherImagesCallback, ChoiceBox, list=[(feedinfo.attrib["name"], feedinfo.attrib) for feedinfo in self.url_feeds if feedinfo.tag == "ImageFeed"], windowTitle=_("Select an image brand"))
+
+	def otherImagesCallback(self, image):
+		if image:
+			self.selectedImage = image[1]
+			self["list"].setList([ChoiceEntryComponent('', ((_("Retrieving image list - Please wait...")), "Waiter"))])
+			self["list"].moveToIndex(0)
+			self.selectionChanged()
+			self.callLater(self.reloadImagesList)
 
 	def selectionChanged(self):
 		currentSelected = self["list"].l.getCurrentSelection()
 		if "://" in currentSelected[0][1] or currentSelected[0][1] in ["Expander", "Waiter"]:
-			self["key_yellow"].setText("")
+			self["key_yellow"].setText(_("Initialize Multiboot") if SystemInfo["canKexec"] else "")
 		else:
 			self["key_yellow"].setText(_("Delete image"))
 		if currentSelected[0][1] == "Waiter":
@@ -593,14 +602,7 @@ class MultibootSelection(SelectImage):
 
 class KexecInit(Screen):
 
-	model = HardwareInfo().get_device_model()
-	modelMtdRootKernel = model in ("vuduo4k", "vuduo4kse") and ["mmcblk0p9", "mmcblk0p6"] or model in ("vusolo4k", "vuultimo4k", "vuuno4k", "vuuno4kse") and ["mmcblk0p4", "mmcblk0p1"] or model == "vuzero4k" and ["mmcblk0p7", "mmcblk0p4"] or ["", ""]
-
-	STARTUP = "kernel=/zImage root=/dev/%s rootsubdir=linuxrootfs0" % modelMtdRootKernel[0]                 # /STARTUP
-	STARTUP_RECOVERY = "kernel=/zImage root=/dev/%s rootsubdir=linuxrootfs0" % modelMtdRootKernel[0]        # /STARTUP_RECOVERY
-	STARTUP_1 = "kernel=/linuxrootfs1/zImage root=/dev/%s rootsubdir=linuxrootfs1" % modelMtdRootKernel[0]  # /STARTUP_1
-	STARTUP_2 = "kernel=/linuxrootfs2/zImage root=/dev/%s rootsubdir=linuxrootfs2" % modelMtdRootKernel[0]  # /STARTUP_2
-	STARTUP_3 = "kernel=/linuxrootfs3/zImage root=/dev/%s rootsubdir=linuxrootfs3" % modelMtdRootKernel[0]  # /STARTUP_3
+	modelMtdRootKernel = SystemInfo["canKexec"]
 
 	def __init__(self, session, *args):
 		Screen.__init__(self, session)
@@ -623,16 +625,11 @@ class KexecInit(Screen):
 		if self.kexec_files:
 			self.setTitle(_("Kexec MultiBoot Initialisation - will reboot after 10 seconds."))
 			self["description"].setText(_("Kexec MultiBoot Initialisation in progress!\n\nWill reboot after restoring any eMMC slots.\nThis can take from 1 -> 5 minutes per slot."))
-			with open("/STARTUP", 'w') as f:
-				f.write(self.STARTUP)
-			with open("/STARTUP_RECOVERY", 'w') as f:
-				f.write(self.STARTUP_RECOVERY)
-			with open("/STARTUP_1", 'w') as f:
-				f.write(self.STARTUP_1)
-			with open("/STARTUP_2", 'w') as f:
-				f.write(self.STARTUP_2)
-			with open("/STARTUP_3", 'w') as f:
-				f.write(self.STARTUP_3)
+			open("/STARTUP", 'w').write("kernel=/zImage root=/dev/%s rootsubdir=linuxrootfs0" % modelMtdRootKernel[0])
+			open("/STARTUP_RECOVERY", 'w').write("kernel=/zImage root=/dev/%s rootsubdir=linuxrootfs0" % modelMtdRootKernel[0])
+			open("/STARTUP_1", 'w').write("kernel=/linuxrootfs1/zImage root=/dev/%s rootsubdir=linuxrootfs1" % modelMtdRootKernel[0])
+			open("/STARTUP_2", 'w').write("kernel=/linuxrootfs2/zImage root=/dev/%s rootsubdir=linuxrootfs2" % modelMtdRootKernel[0])
+			open("/STARTUP_3", 'w').write("kernel=/linuxrootfs3/zImage root=/dev/%s rootsubdir=linuxrootfs3" % modelMtdRootKernel[0])
 			cmdlist = []
 			cmdlist.append("dd if=/dev/%s of=/zImage" % self.modelMtdRootKernel[1])  # backup old kernel
 			cmdlist.append("dd if=/usr/bin/kernel_auto.bin of=/dev/%s" % self.modelMtdRootKernel[1])  # create new kernel
