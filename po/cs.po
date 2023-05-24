@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenPLi enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-16 18:05+0200\n"
+"POT-Creation-Date: 2023-05-24 16:50+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: IMS <ims@openpli.org>\n"
 "Language-Team: PLi <ims@openpli.org>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3\n"
 
 #
 msgid ""
@@ -405,9 +405,8 @@ msgid "(activated +%d min)"
 msgstr "(aktivován +%d min)"
 
 #
-#, fuzzy
 msgid "(current)"
-msgstr "Aktuální"
+msgstr "(aktuální)"
 
 #
 msgid "(empty)"
@@ -1228,6 +1227,8 @@ msgid ""
 "Attention - forced loading recovery image!\n"
 "Create an empty STARTUP_RECOVERY file at the root of your HDD/USB drive and hold the Power button for more than 12 seconds for reboot receiver!"
 msgstr ""
+"Pozor - nucené načítání obnovovacího obrazu!\n"
+"Vytvořte prázdný soubor STARTUP_RECOVERY v kořenovém adresáři vašeho HDD/USB disku a podržte tlačítko napájení déle než 12 sekund pro restart přijímače!"
 
 msgid "Attention, this is repeated timer!\n"
 msgstr "Pozor, toto je opakovaný časovač!\n"
@@ -1584,9 +1585,9 @@ msgstr "Posílení zelené"
 msgid "Boot to Android image"
 msgstr "Boot do Android image"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Boot to Recovery image - slot0 %s"
-msgstr "Boot do Recovery menu"
+msgstr "Nabootovat do Recovery image - slot0 %s"
 
 msgid "Boot to Recovery menu"
 msgstr "Boot do Recovery menu"
@@ -1804,7 +1805,8 @@ msgstr "Nelze určit"
 msgid "Cannot find any signal ..., aborting !"
 msgstr "Nelze najít žádný signál..., ukončuje se!"
 
-msgid "Cannot find images - please try later"
+#, fuzzy
+msgid "Cannot find images - please try later or select an alternate image"
 msgstr "Nelze najít image - zkuste to později"
 
 msgid "Cannot move files on a different disk or system to the trash can"
@@ -3457,6 +3459,12 @@ msgstr[0] "Dokončeno - instalován, aktualizován nebo odstraněn %d balíček 
 msgstr[1] "Dokončeno - instalovány, aktualizovány nebo odstraněny %d balíčky (%s)"
 msgstr[2] "Dokončeno - instalováno, aktualizováno nebo odstraněno %d balíčků (%s)"
 
+#, python-format
+msgid ""
+"Download Successsful\n"
+"%s"
+msgstr ""
+
 #
 msgid "Download plugins"
 msgstr "Stáhnout pluginy"
@@ -3470,7 +3478,7 @@ msgid "Downloadable plugins"
 msgstr "Stažitelné pluginy"
 
 msgid "Downloaded Images"
-msgstr ""
+msgstr "Stažené obrazy"
 
 #
 msgid "Downloading"
@@ -3641,9 +3649,6 @@ msgstr "Povolit EIT EPG"
 #
 msgid "Enable HDMI-CEC"
 msgstr "Povolit HDMI-CEC"
-
-msgid "Enable Kexec MultiBoot"
-msgstr "Povolit Kexec MultiBoot"
 
 #
 msgid "Enable MHW EPG"
@@ -3829,9 +3834,8 @@ msgstr "Zadejte PIN kód"
 msgid "Enter URL"
 msgstr "Zadejte URL"
 
-#, fuzzy
 msgid "Enter an URL where alternative images could be listed for FlashImage. Enter text 'all' for automatic access of many images."
-msgstr "Zadejte URL, kde by mohly být alternativní obrazy pro FlashImage."
+msgstr "Zadejte URL, kde mohou být uvedeny alternativní obrazy pro FlashImage. Zadejte text 'all' pro automatický přístup k vícero obrazům."
 
 msgid "Enter if you are in the east or west hemisphere."
 msgstr "Zadejte, zda jste na východní nebo západní polokouli."
@@ -5183,6 +5187,11 @@ msgid "Initialize"
 msgstr "Inicializovat"
 
 #
+#, fuzzy
+msgid "Initialize Multiboot"
+msgstr "Inicializace"
+
+#
 msgid "Initializing storage device..."
 msgstr "Inicializuje se zařízení pro ukládání..."
 
@@ -6481,6 +6490,9 @@ msgstr "Ne, kromě časovače probouzení"
 msgid "No, never"
 msgstr "Ne, nikdy"
 
+msgid "No, only download"
+msgstr "Ne, pouze stáhnout"
+
 #
 msgid "None"
 msgstr "Žádný"
@@ -6712,6 +6724,10 @@ msgstr "původní zvuk"
 
 msgid "Other"
 msgstr "Další"
+
+#, fuzzy
+msgid "Other Images"
+msgstr "Odstranit image"
 
 msgid "Other Subtitles & lang"
 msgstr "Ostatní titulky a jazyky"
@@ -7707,6 +7723,8 @@ msgid ""
 "Really permanently delete MultiBoot files?\n"
 "%s"
 msgstr ""
+"Opravdu trvale smazat MultiBoot soubory?\n"
+"%s"
 
 #
 msgid "Really reboot now?"
@@ -7852,6 +7870,11 @@ msgstr "Znovu načíst"
 msgid "Reload blacklists"
 msgstr "  Znovu načíst blacklisty"
 
+#
+#, fuzzy
+msgid "Reload services/bouquets list"
+msgstr "Přidat program do přehledu"
+
 msgid "Reloading bouquets and services..."
 msgstr "Obnovuji přehledy a programy..."
 
@@ -7921,9 +7944,8 @@ msgid "Remove entry"
 msgstr "Odstranit položku"
 
 #
-#, fuzzy
 msgid "Remove forever"
-msgstr "Odstranit položku"
+msgstr "Trvale odstranit"
 
 #
 msgid "Remove from parental protection"
@@ -8662,6 +8684,10 @@ msgstr "Zvolte akci pro časovač '%s'."
 #
 msgid "Select all"
 msgstr "Vybrat vše"
+
+#, fuzzy
+msgid "Select an image brand"
+msgstr "Výběr image"
 
 #
 msgid "Select audio track"
@@ -10339,7 +10365,7 @@ msgstr ""
 "Pro případné korekce můžete kontaktovat autora\n"
 "na výše uvedené adrese.\n"
 "\n"
-"®4.4.2023"
+"®15.5.2023"
 
 #
 msgid "TS file is too large for ISO9660 level 1!"
@@ -10547,6 +10573,9 @@ msgstr "Výsledky byly zapsány do %s"
 
 msgid "The saved PIN was cleared."
 msgstr "Uložený PIN byl vymazán."
+
+msgid "The services/bouquets list is reloaded!"
+msgstr ""
 
 msgid "The sleep timer has been activated."
 msgstr "Časovač vypnutí byl aktivován."
