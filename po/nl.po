@@ -3195,7 +3195,7 @@ msgstr[1] "Gereed - %d pakketten geïnstalleerd, vervangen of verwijderd (%s)"
 
 #, python-format
 msgid ""
-"Download Successsful\n"
+"Download Successful\n"
 "%s"
 msgstr ""
 
@@ -8879,7 +8879,7 @@ msgid "Start timeshift"
 msgstr "Start de timeshift"
 
 msgid "Start with list screen"
-msgstr "Start met een zichtbare lijst"
+msgstr "Start in lijstmode"
 
 msgid "Starting on"
 msgstr "Start op"
