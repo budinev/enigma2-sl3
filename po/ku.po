@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2 Kurdish translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-16 15:41+0100\n"
+"POT-Creation-Date: 2025-07-01 17:09+0200\n"
 "PO-Revision-Date: 2013-04-22 04:29+0330\n"
 "Last-Translator: dimili21\n"
 "Language-Team: \n"
@@ -3360,6 +3360,10 @@ msgstr "EPG"
 msgid "EPG Select Actions"
 msgstr "EPG selection"
 
+#, fuzzy
+msgid "EPG filter switching"
+msgstr "Auto scart switching"
+
 msgid "EPG language selection 1"
 msgstr "EPG ziman 1"
 
@@ -3377,6 +3381,10 @@ msgstr "EPG Çékirin"
 
 msgid "EPG:"
 msgstr ""
+
+#, fuzzy
+msgid "EPGFilter Actions"
+msgstr "EPG selection"
 
 msgid "EPGSETUP"
 msgstr ""
@@ -3520,6 +3528,9 @@ msgstr ""
 msgid "Enable favourites edit"
 msgstr "Enable favourites edit"
 
+msgid "Enable filtering in SingleEPG"
+msgstr ""
+
 msgid "Enable freesat EPG"
 msgstr "Enable freesat EPG"
 
@@ -3544,6 +3555,9 @@ msgid "Enable power off timer"
 msgstr "Enable move mode"
 
 msgid "Enable remote enigma2 receiver to be tried to tune into services that cannot be tuned into locally (e.g. tuner is occupied or service type is unavailable on the local tuner. Specify complete URL including http:// and port number (normally ...:8001), e.g. http://second_box:8001."
+msgstr ""
+
+msgid "Enable setting a time interval for filtering events in SingleEPG using the 'Stop' button."
 msgstr ""
 
 msgid "Enable teletext caching"
@@ -3593,6 +3607,9 @@ msgstr "End bouquet edit"
 
 msgid "End favourites edit"
 msgstr "End favourites edit"
+
+msgid "End of the time interval during which events must begin to be displayed. If the filter is active, use keys 3 and 6 to adjust the end time, and key 0 to save."
+msgstr ""
 
 msgid "End time"
 msgstr "Vext derbas bu"
@@ -5073,9 +5090,6 @@ msgstr ""
 msgid "Install local extension"
 msgstr "Install local extension"
 
-msgid "Install picons on"
-msgstr "Install picons on"
-
 #, fuzzy
 msgid "Install plugin"
 msgstr "Installing"
@@ -5113,6 +5127,10 @@ msgstr "Internal flash"
 
 msgid "Internal hdd only"
 msgstr "Internal hdd only"
+
+#, fuzzy
+msgid "Internet"
+msgstr "Interface: "
 
 msgid "Internet (ntp)"
 msgstr ""
@@ -5244,6 +5262,10 @@ msgstr ""
 
 msgid "Keep service"
 msgstr ""
+
+#, fuzzy
+msgid "Keep sorting"
+msgstr "testing"
 
 msgid "Kenya"
 msgstr ""
@@ -6417,6 +6439,36 @@ msgid "Number or SMS style data entry"
 msgstr ""
 
 #, fuzzy
+msgid "Numberbuttons Seek"
+msgstr "further education"
+
+#, fuzzy
+msgid "Numberbuttons Zap"
+msgstr "further education"
+
+msgid "Numberzap"
+msgstr ""
+
+msgid "Numberzap or seek backward big step"
+msgstr ""
+
+msgid "Numberzap or seek backward medium step"
+msgstr ""
+
+msgid "Numberzap or seek backward small step"
+msgstr ""
+
+msgid "Numberzap or seek forward medium step"
+msgstr ""
+
+msgid "Numberzap or seek forward small step"
+msgstr ""
+
+#, fuzzy
+msgid "Numberzap or zap to previous service"
+msgstr "Return to previous service"
+
+#, fuzzy
 msgid "OE Version: "
 msgstr "Kernel version: "
 
@@ -6865,7 +6917,7 @@ msgstr "Please change recording endtime"
 msgid "Please choose an extension..."
 msgstr "Please choose an extension..."
 
-msgid "Please configure the fallback tuner setup"
+msgid "Please configure the fallback receiver setup"
 msgstr ""
 
 msgid ""
@@ -8600,7 +8652,7 @@ msgid "Select the time zone within the area or region."
 msgstr ""
 
 #, fuzzy
-msgid "Select the timer from the fallback tuner by default"
+msgid "Select the timer from the fallback receiver by default"
 msgstr "Select the movie path"
 
 msgid "Select the tuner that controls the motorised dish."
@@ -8813,6 +8865,10 @@ msgstr ""
 
 msgid "Services"
 msgstr "Services"
+
+#, fuzzy, python-format
+msgid "Set %s as default?"
+msgstr "list style default"
 
 msgid "Set CI assignment for detection of available services."
 msgstr ""
@@ -9666,6 +9722,9 @@ msgstr "Start from the beginning"
 msgid "Start instant recording"
 msgstr ""
 
+msgid "Start of the time interval during which events must begin to be displayed. If the filter is active, use keys 1 and 4 to adjust the start time, and key 0 to save."
+msgstr ""
+
 msgid "Start offline decode"
 msgstr "Start offline decode"
 
@@ -9841,6 +9900,14 @@ msgstr "Stream"
 
 msgid "Stream request"
 msgstr "Stream request"
+
+#, fuzzy
+msgid "Stream-tv"
+msgstr "Stream"
+
+#, fuzzy
+msgid "Streaming"
+msgstr "Stream"
 
 msgid "Streaming clients info"
 msgstr ""
@@ -10741,6 +10808,10 @@ msgstr "Today"
 msgid "Toggle Configuration Mode or AutoDisqc"
 msgstr "Configuration mode: %s"
 
+#, fuzzy
+msgid "Toggle Filter Order"
+msgstr "Select video mode"
+
 msgid "Toggle HDMI In"
 msgstr ""
 
@@ -10759,6 +10830,9 @@ msgstr ""
 
 msgid "Toggle a cut mark at the current position"
 msgstr "Toggle a cut mark at the current position"
+
+msgid "Toggle between zap and seek mode"
+msgstr ""
 
 msgid "Toggle dashed flickering line for this service"
 msgstr ""
@@ -10979,7 +11053,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-msgid "URL of fallback remote receiver"
+msgid "URL of remote receiver for imports"
 msgstr ""
 
 msgid "USALS automatically moves a motorised dish to the correct satellite based on the coordinates entered by the user. Without USALS each satellite will need to be setup and saved individually."
@@ -11207,6 +11281,9 @@ msgstr ""
 msgid "Use circular LNB"
 msgstr ""
 
+msgid "Use current filter values as default"
+msgstr ""
+
 msgid "Use fastscan channel names"
 msgstr "Use fastscan channel names"
 
@@ -11304,6 +11381,9 @@ msgstr "Using LNB %d"
 
 msgid "Using fixed address"
 msgstr "Using fixed address"
+
+msgid "Using the 'Stop' button will cyclically switch displaying events starting: 'outside the interval', 'within the interval', and 'without filtering', instead of 'within the interval', 'outside the interval', and 'without filtering'."
+msgstr ""
 
 #, python-format
 msgid "Using tuner %s"
@@ -11708,10 +11788,10 @@ msgstr "When enabled, the receiver will automatically use the audio track which 
 msgid "When enabled the set top box is able to wakeup on LAN"
 msgstr ""
 
-msgid "When enabled the timer from the fallback tuner is imported"
+msgid "When enabled the timer from the fallback receiver is imported"
 msgstr ""
 
-msgid "When enabled the timer from the fallback tuner is the default timer"
+msgid "When enabled the timer from the fallback receiver is the default timer"
 msgstr ""
 
 msgid "When enabled then when you select a new channel in the channel selection the channel selection will not close. It will only close when you select the current playing service. This is a kind of preview mode"
@@ -11720,7 +11800,7 @@ msgstr ""
 msgid "When enabled you can control the volume with the arrow buttons instead of getting the channel selection list"
 msgstr ""
 
-msgid "When enabled you can customize the OpenWebIf settings for the fallback tuner"
+msgid "When enabled you can customize the OpenWebIf settings for the fallback receiver"
 msgstr ""
 
 msgid "When enabled you can specify a timeframe to ignore the shutdown timer when the receiver is in standby mode"
@@ -11911,6 +11991,9 @@ msgstr ""
 #, fuzzy
 msgid "When set to 'Yes', all locations where SNR is displayed in dB's will show an SNR percentage, and vice versa."
 msgstr "Ger li Erê were danîn, hemî cîhên ku SNR di dB de tê xuyang kirin dê sedî SNR nîşan bidin û berevajî."
+
+msgid "When switching the filter, the selected EPG sorting is preserved."
+msgstr ""
 
 msgid "When the content has an aspect ratio of 16:9, choose whether to scale/stretch the picture."
 msgstr "When the content has an aspect ratio of 16:9, choose whether to scale/stretch the picture."

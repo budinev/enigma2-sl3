@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-16 15:41+0100\n"
+"POT-Creation-Date: 2025-07-01 17:09+0200\n"
 "PO-Revision-Date: 2020-05-16 18:41+0200\n"
 "Last-Translator: jamu\n"
 "Language-Team: BoxFreak/jamu\n"
@@ -3693,6 +3693,11 @@ msgstr "Ohjelmaopas"
 msgid "EPG Select Actions"
 msgstr "Valitse toiminto"
 
+#
+#, fuzzy
+msgid "EPG filter switching"
+msgstr "Autom. SCARTin kytkentä"
+
 msgid "EPG language selection 1"
 msgstr "Ohjelmaoppaan kieli 1"
 
@@ -3711,6 +3716,11 @@ msgstr "Ohjelmaoppaan asetukset"
 
 msgid "EPG:"
 msgstr ""
+
+#
+#, fuzzy
+msgid "EPGFilter Actions"
+msgstr "Valitse toiminto"
 
 msgid "EPGSETUP"
 msgstr ""
@@ -3871,6 +3881,10 @@ msgstr "Ota käyttöön etävastaanotin"
 msgid "Enable favourites edit"
 msgstr "Suosikkien lisäys ja poisto"
 
+#, fuzzy
+msgid "Enable filtering in SingleEPG"
+msgstr "Ota käyttöön Virgin EPG"
+
 msgid "Enable freesat EPG"
 msgstr "Ota käyttöön Freesat EPG"
 
@@ -3899,6 +3913,9 @@ msgstr "Herätysajastin"
 
 msgid "Enable remote enigma2 receiver to be tried to tune into services that cannot be tuned into locally (e.g. tuner is occupied or service type is unavailable on the local tuner. Specify complete URL including http:// and port number (normally ...:8001), e.g. http://second_box:8001."
 msgstr "Ota käyttöön etävastaanotin. Etävastaanotinta kokeillaan kun paikallisia virittimiä ei voida käyttään - esimerkiksi kun virittimet ovat varattu, tai soveltuvia virittimiä ei ole. Määrittele koko URL mukaanlukien http:// ja portti (yleensä :8001), esimerkiksi http://toinen_laite:8001."
+
+msgid "Enable setting a time interval for filtering events in SingleEPG using the 'Stop' button."
+msgstr ""
 
 msgid "Enable teletext caching"
 msgstr "Ota käyttöön teksti-tv:n välimuisti"
@@ -3956,6 +3973,9 @@ msgstr "Tallenna muutokset ja poistu"
 #
 msgid "End favourites edit"
 msgstr "Tallenna muutokset ja poistu"
+
+msgid "End of the time interval during which events must begin to be displayed. If the filter is active, use keys 3 and 6 to adjust the end time, and key 0 to save."
+msgstr ""
 
 #
 msgid "End time"
@@ -5567,9 +5587,6 @@ msgstr "Asenna laajennukset."
 msgid "Install local extension"
 msgstr "Asenna paikallinen laajennus"
 
-msgid "Install picons on"
-msgstr "Asenna kanavalogot"
-
 #
 #, fuzzy
 msgid "Install plugin"
@@ -5612,6 +5629,11 @@ msgstr "Sisäinen flash-muisti"
 
 msgid "Internal hdd only"
 msgstr "Vain sisäinen kiintolevy"
+
+#
+#, fuzzy
+msgid "Internet"
+msgstr "Sisäinen"
 
 msgid "Internet (ntp)"
 msgstr ""
@@ -5759,6 +5781,11 @@ msgstr "Kasakstan"
 
 #
 msgid "Keep service"
+msgstr "Säilytä kanava"
+
+#
+#, fuzzy
+msgid "Keep sorting"
 msgstr "Säilytä kanava"
 
 msgid "Kenya"
@@ -7097,6 +7124,36 @@ msgid "Number or SMS style data entry"
 msgstr ""
 
 #, fuzzy
+msgid "Numberbuttons Seek"
+msgstr "jatkokoulutus"
+
+#, fuzzy
+msgid "Numberbuttons Zap"
+msgstr "jatkokoulutus"
+
+msgid "Numberzap"
+msgstr ""
+
+msgid "Numberzap or seek backward big step"
+msgstr ""
+
+msgid "Numberzap or seek backward medium step"
+msgstr ""
+
+msgid "Numberzap or seek backward small step"
+msgstr ""
+
+msgid "Numberzap or seek forward medium step"
+msgstr ""
+
+msgid "Numberzap or seek forward small step"
+msgstr ""
+
+#, fuzzy
+msgid "Numberzap or zap to previous service"
+msgstr "Palaa edelliselle kanavalle"
+
+#, fuzzy
 msgid "OE Version: "
 msgstr "Enigman versio: "
 
@@ -7580,7 +7637,7 @@ msgstr "Aseta tallennuksen päättymisaika"
 msgid "Please choose an extension..."
 msgstr "Valitse laajennus..."
 
-msgid "Please configure the fallback tuner setup"
+msgid "Please configure the fallback receiver setup"
 msgstr ""
 
 #
@@ -9541,7 +9598,7 @@ msgid "Select the time zone within the area or region."
 msgstr ""
 
 #, fuzzy
-msgid "Select the timer from the fallback tuner by default"
+msgid "Select the timer from the fallback receiver by default"
 msgstr "Kun käytössä, ajastukset tuodaan etävastaanottimelta"
 
 msgid "Select the tuner that controls the motorised dish."
@@ -9779,6 +9836,10 @@ msgstr ""
 #
 msgid "Services"
 msgstr "Palvelut"
+
+#, fuzzy, python-format
+msgid "Set %s as default?"
+msgstr "Oletus"
 
 msgid "Set CI assignment for detection of available services."
 msgstr "Ota käyttöön CI-määritys käytettävissä olevien palvelujen löytämiseksi."
@@ -10718,6 +10779,9 @@ msgstr "Aloita alusta"
 msgid "Start instant recording"
 msgstr "Aloita tallennus?"
 
+msgid "Start of the time interval during which events must begin to be displayed. If the filter is active, use keys 1 and 4 to adjust the start time, and key 0 to save."
+msgstr ""
+
 msgid "Start offline decode"
 msgstr "Aloita offline-purkaminen"
 
@@ -10923,6 +10987,14 @@ msgstr "Stream"
 
 msgid "Stream request"
 msgstr "Streamin pyynti"
+
+#, fuzzy
+msgid "Stream-tv"
+msgstr "Stream"
+
+#, fuzzy
+msgid "Streaming"
+msgstr "Stream"
 
 msgid "Streaming clients info"
 msgstr "Etäasiakkaat"
@@ -11925,6 +11997,11 @@ msgstr "Tänään"
 msgid "Toggle Configuration Mode or AutoDisqc"
 msgstr "Toimintatila: %s"
 
+#
+#, fuzzy
+msgid "Toggle Filter Order"
+msgstr "Valitse video-tila"
+
 msgid "Toggle HDMI In"
 msgstr "HDMI sisään päälle/pois"
 
@@ -11943,6 +12020,9 @@ msgstr "Vaihda TV/RADIO tilojen välillä"
 
 msgid "Toggle a cut mark at the current position"
 msgstr "Vaihda leikkausmerkki nykyiseen kohtaan"
+
+msgid "Toggle between zap and seek mode"
+msgstr ""
 
 msgid "Toggle dashed flickering line for this service"
 msgstr "Kanavan vilkkuvan rivin peitto päälle/pois"
@@ -12190,7 +12270,7 @@ msgstr ""
 msgid "URL"
 msgstr "URL"
 
-msgid "URL of fallback remote receiver"
+msgid "URL of remote receiver for imports"
 msgstr "Etävastaanottimen URL-osoite"
 
 msgid "USALS automatically moves a motorised dish to the correct satellite based on the coordinates entered by the user. Without USALS each satellite will need to be setup and saved individually."
@@ -12431,6 +12511,9 @@ msgstr "Käytä PiP:nä, jos mahdollista"
 msgid "Use circular LNB"
 msgstr "Kiertopolarisaatio"
 
+msgid "Use current filter values as default"
+msgstr ""
+
 msgid "Use fastscan channel names"
 msgstr "Käytä pikahaun kanavanimiä"
 
@@ -12545,6 +12628,9 @@ msgstr "Käytössä LNB %d"
 
 msgid "Using fixed address"
 msgstr "Käytössä kiinteä osoite"
+
+msgid "Using the 'Stop' button will cyclically switch displaying events starting: 'outside the interval', 'within the interval', and 'without filtering', instead of 'within the interval', 'outside the interval', and 'without filtering'."
+msgstr ""
 
 #, python-format
 msgid "Using tuner %s"
@@ -12987,11 +13073,11 @@ msgstr "Kun päällä, vastaanotin käyttää kanavalle aiemmin valitsemaasi ä�
 msgid "When enabled the set top box is able to wakeup on LAN"
 msgstr "Käy käytössä, vastaanotin voi käynnistyä verkkokomennolla"
 
-msgid "When enabled the timer from the fallback tuner is imported"
+msgid "When enabled the timer from the fallback receiver is imported"
 msgstr "Kun käytössä, ajastukset tuodaan etävastaanottimelta"
 
 #, fuzzy
-msgid "When enabled the timer from the fallback tuner is the default timer"
+msgid "When enabled the timer from the fallback receiver is the default timer"
 msgstr "Kun käytössä, ajastukset tuodaan etävastaanottimelta"
 
 msgid "When enabled then when you select a new channel in the channel selection the channel selection will not close. It will only close when you select the current playing service. This is a kind of preview mode"
@@ -13000,7 +13086,7 @@ msgstr "Kun käytössä, uuden kanavan valinta OK näppäimellä ei sulje kanava
 msgid "When enabled you can control the volume with the arrow buttons instead of getting the channel selection list"
 msgstr "Kun käytössä, nuolinäppäimet ohjaavat äänenvoimakkuutta kanavanvalinnan sijasta"
 
-msgid "When enabled you can customize the OpenWebIf settings for the fallback tuner"
+msgid "When enabled you can customize the OpenWebIf settings for the fallback receiver"
 msgstr "Käy käytössä, voit määritellä etävastaanottimen OpenWebIf asetuksia"
 
 msgid "When enabled you can specify a timeframe to ignore the shutdown timer when the receiver is in standby mode"
@@ -13189,6 +13275,9 @@ msgstr "Kun päällä, sallitaan niidenkin videotilojen valinta jotka eivät nä
 #, fuzzy
 msgid "When set to 'Yes', all locations where SNR is displayed in dB's will show an SNR percentage, and vice versa."
 msgstr "Jos asetus on Kyllä, kaikki paikat, joissa SNR näytetään desibeleinä, näyttävät SNR-prosentin ja päinvastoin."
+
+msgid "When switching the filter, the selected EPG sorting is preserved."
+msgstr ""
 
 msgid "When the content has an aspect ratio of 16:9, choose whether to scale/stretch the picture."
 msgstr "Kun ohjelman kuvasuhde on 16:9, valitse skaalataanko/venytetäänkö kuvaa."
