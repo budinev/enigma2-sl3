@@ -1,7 +1,7 @@
 import re
 from hashlib import md5
 from ast import literal_eval
-from enigma import Misc_Options, eDVBCIInterfaces, eDVBResourceManager, eGetEnigmaDebugLvl
+from enigma import Misc_Options, eDVBCIInterfaces, eDVBResourceManager, eGetEnigmaDebugLvl, eDVBCSAEngine
 from Tools.Directories import SCOPE_PLUGINS, fileCheck, fileExists, fileHas, pathExists, resolveFilename
 
 
@@ -140,6 +140,7 @@ from Tools.Multiboot import getMultibootStartupDevice, getMultibootslots  # This
 
 def setBoxInfoItems():
 	model = BoxInfo.getItem("model") # This may contain more information about the specific model
+	BoxInfo.setItem("ArchIsARM", BoxInfo.getItem("architecture").startswith(("arm", "cortex")))
 	BoxInfo.setItem("InDebugMode", eGetEnigmaDebugLvl() >= 4)
 	BoxInfo.setItem("CommonInterface", model in ("h9combo", "h9combose", "h10", "pulse4kmini") and 1 or eDVBCIInterfaces.getInstance().getNumOfSlots())
 	BoxInfo.setItem("CiAlternativeCaHandling", model in ("pulse4k",  "pulse4kmini"))
@@ -148,6 +149,7 @@ def setBoxInfoItems():
 		BoxInfo.setItem("CI%dSupportsHighBitrates" % cislot, fileCheck("/proc/stb/tsmux/ci%d_tsclk" % cislot))
 		BoxInfo.setItem("CI%dRelevantPidsRoutingSupport" % cislot, fileCheck("/proc/stb/tsmux/ci%d_relevant_pids_routing" % cislot))
 	BoxInfo.setItem("HasSoftcamInstalled", hassoftcaminstalled())
+	BoxInfo.setItem("HasSoftCSA", eDVBCSAEngine.isAvailable())
 	BoxInfo.setItem("NumVideoDecoders", getNumVideoDecoders())
 	BoxInfo.setItem("PIPAvailable", BoxInfo.getItem("NumVideoDecoders") > 1)
 	BoxInfo.setItem("CanMeasureFrontendInputPower", eDVBResourceManager.getInstance().canMeasureFrontendInputPower())

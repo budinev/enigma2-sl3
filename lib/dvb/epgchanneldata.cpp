@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
+#define NAME_ARRY_SIZE 34
 
 eEPGChannelData::eEPGChannelData(eEPGTransponderDataReader *ml)
 	:epgReader(ml)
@@ -55,7 +56,11 @@ void eEPGChannelData::startChannel()
 
 void eEPGChannelData::startEPG()
 {
+#ifdef GLIBC_64BIT_TIME_FLAGS
+	eDebug("[eEPGChannelData] start reading events(%lld)", ::time(0));
+#else
 	eDebug("[eEPGChannelData] start reading events(%ld)", ::time(0));
+#endif
 	state=0;
 	haveData=0;
 	for (unsigned int i=0; i < sizeof(seenSections)/sizeof(tidMap); ++i)
@@ -278,7 +283,11 @@ void eEPGChannelData::finishEPG()
 {
 	if (!isRunning)  // epg ready
 	{
+#ifdef GLIBC_64BIT_TIME_FLAGS
+		eDebug("[eEPGChannelData] stop caching events(%lld)", ::time(0));
+#else
 		eDebug("[eEPGChannelData] stop caching events(%ld)", ::time(0));
+#endif
 		zapTimer->start(UPDATE_INTERVAL, 1);
 		eDebug("[eEPGChannelData] next update in %i min", UPDATE_INTERVAL / 60000);
 		for (unsigned int i=0; i < sizeof(seenSections)/sizeof(tidMap); ++i)
@@ -505,7 +514,11 @@ void eEPGChannelData::readData( const uint8_t *data, int source)
 #endif
 			default: eDebugNoNewLine("unknown");break;
 		}
+#ifdef GLIBC_64BIT_TIME_FLAGS
+		eDebugNoNewLine(" finished(%lld)\n", ::time(0));
+#else
 		eDebugNoNewLine(" finished(%ld)\n", ::time(0));
+#endif
 		if ( reader )
 			reader->stop();
 		isRunning &= ~source;
@@ -738,7 +751,7 @@ uint8_t *eEPGChannelData::delimitName( uint8_t *in, uint8_t *out, int len_in )
 	// This function converts the mhw name into a string.
 	// Constraint: "length of out" = "length of in" + 1.
 	int i;
-	for ( i=0; i < len_in; i++ )
+	for ( i=0; i < len_in && i < NAME_ARRY_SIZE; i++ )
 		out[i] = in[i];
 
 	i = len_in - 1;
@@ -821,7 +834,7 @@ void eEPGChannelData::timeMHW2DVB( u_char day, u_char hours, u_char minutes, u_c
 void eEPGChannelData::storeMHWTitle(std::map<uint32_t, mhw_title_t>::iterator itTitle, std::string sumText, const uint8_t *data)
 // data is borrowed from calling proc to save memory space.
 {
-	uint8_t name[34];
+	uint8_t name[NAME_ARRY_SIZE];
 
 	// For each title a separate EIT packet will be sent to eEPGCache::sectionRead()
 	bool isMHW2 = itTitle->second.mhw2_mjd_hi || itTitle->second.mhw2_mjd_lo ||
@@ -1149,7 +1162,11 @@ void eEPGChannelData::readMHWData(const uint8_t *data)
 				return;	// Continue reading of the current table.
 		}
 	}
+#ifdef GLIBC_64BIT_TIME_FLAGS
+	eDebug("[eEPGChannelData] mhw finished(%lld) %zu summaries not found",
+#else
 	eDebug("[eEPGChannelData] mhw finished(%ld) %zu summaries not found",
+#endif
 		::time(0),
 		m_program_ids.size());
 	// Summaries have been read, titles that have summaries have been stored.
@@ -1463,7 +1480,11 @@ void eEPGChannelData::readMHWData2(const uint8_t *data)
 			// Now store titles that do not have summaries.
 			for (std::map<uint32_t, mhw_title_t>::iterator itTitle(m_titles.begin()); itTitle != m_titles.end(); itTitle++)
 				storeMHWTitle( itTitle, "", data );
+#ifdef GLIBC_64BIT_TIME_FLAGS
+			eDebug("[eEPGChannelData] mhw2 finished(%lld) %zu summaries not found",
+#else
 			eDebug("[eEPGChannelData] mhw2 finished(%ld) %zu summaries not found",
+#endif
 				::time(0),
 				m_program_ids.size());
 		}

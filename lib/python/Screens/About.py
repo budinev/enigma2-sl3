@@ -14,7 +14,7 @@ from Components.Label import Label
 from Components.ProgressBar import ProgressBar
 
 from Tools.StbHardware import getFPVersion
-from enigma import eTimer, eLabel, eConsoleAppContainer, getDesktop, eGetEnigmaDebugLvl
+from enigma import eTimer, eLabel, eConsoleAppContainer, getDesktop, eGetEnigmaDebugLvl, eDVBCSAEngine
 
 from Components.GUIComponent import GUIComponent
 from skin import applySkinFactor, parameters, parseScale
@@ -51,6 +51,12 @@ class About(Screen):
 		AboutText += _("Kernel version: ") + about.getKernelVersionString() + "\n"
 
 		AboutText += _("DVB driver version: ") + about.getDriverInstalledDate() + "\n"
+
+		if eDVBCSAEngine.isAvailable():
+			libName = eDVBCSAEngine.getLibraryName()
+			libVersion = eDVBCSAEngine.getLibraryVersion()
+			if libName and libVersion:
+				AboutText += _("Software descrambling: ") + libName + " " + libVersion + "\n"
 
 		GStreamerVersion = about.getGStreamerVersionString().replace("GStreamer", "")
 		self["GStreamerVersion"] = StaticText(GStreamerVersion)
@@ -230,8 +236,8 @@ class CommitInfo(Screen):
 			("https://api.github.com/repos/openpli/enigma2-binary-plugins/commits" + branch_e2plugins, "Enigma2 Binary Plugins", API_GITHUB),
 			("https://api.github.com/repos/openpli/aio-grab/commits", "Aio Grab", API_GITHUB),
 			("https://api.github.com/repos/openpli/enigma2-plugin-extensions-epgimport/commits", "Plugin EPGImport", API_GITHUB),
-			("https://api.github.com/repos/littlesat/skin-PLiHD/commits", "Skin PLi HD", API_GITHUB),
-			("https://api.github.com/repos/E2OpenPlugins/e2openplugin-OpenWebif/commits", "OpenWebif", API_GITHUB),
+			("https://api.github.com/repos/DimitarCC/E2-DarkOS-skin/commits", "Skin PLi DarkOS", API_GITHUB),
+			("https://api.github.com/repos/oe-alliance/OpenWebif/commits", "OpenWebif", API_GITHUB),
 			("https://gitlab.openpli.org/api/v4/projects/5/repository/commits", "Hans settings", API_GITLAB)
 		]
 		self.cachedProjects = {}
@@ -249,12 +255,7 @@ class CommitInfo(Screen):
 			commitlog += 80 * '-' + '\n'
 			commitlog += url.split('/')[-2] + '\n'
 			commitlog += 80 * '-' + '\n'
-			try:
-				# OpenPli 5.0 uses python 2.7.11 and here we need to bypass the certificate check
-				from ssl import _create_unverified_context
-				log = loads(urlopen(url, timeout=5, context=_create_unverified_context()).read())
-			except:
-				log = loads(urlopen(url, timeout=5).read())
+			log = loads(urlopen(url, timeout=5).read())
 
 			if self.projects[self.project][2] == API_GITHUB:
 				for c in log:

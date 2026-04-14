@@ -673,7 +673,7 @@ class InfoBarHotkey:
 					return 0
 			elif selected[0] == "Module":
 				try:
-					exec("from %s import %s" % (selected[1], selected[2]))
+					exec("from %s import %s" % (selected[1], selected[2]), globals())
 					exec("self.session.open(%s)" % ",".join(selected[2:]))
 				except Exception as e:
 					print("[Hotkey] error during executing module %s, screen %s, %s" % (selected[1], selected[2], e))
@@ -719,7 +719,7 @@ class InfoBarHotkey:
 				if os.path.isfile(command):
 					if ".hidden." in command:
 						from enigma import eConsoleAppContainer
-						eConsoleAppContainer().execute("python %s" % command)
+						eConsoleAppContainer().execute("python3 %s" % command)
 					else:
 						from Screens.Console import Console
 						self.session.open(Console, selected[1] + " pythonscript", "python3 %s" % command, closeOnSuccess=selected[1].startswith('!'), showStartStopText=False)
