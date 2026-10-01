@@ -1,5 +1,6 @@
 #include <lib/service/servicedvbstream.h>
 #include <lib/dvb/csasession.h>
+#include <lib/dvb/csaengine.h>
 #include <lib/base/eerror.h>
 #include <lib/dvb/db.h>
 #include <lib/dvb/epgcache.h>
@@ -88,7 +89,7 @@ void eDVBServiceStream::serviceEvent(int event)
 			doRecord();
 
 		// Retry ECM monitor start if session exists but CSA-ALT not yet detected
-		if (m_csa_session && !m_csa_session->isEcmAnalyzed())
+		if ((csa_is_auto() || csa_from_whitelist()) && m_csa_session && !m_csa_session->isEcmAnalyzed())
 		{
 			eDVBServicePMTHandler::program program;
 			if (m_service_handler.getProgramInfo(program) == 0)
@@ -246,11 +247,13 @@ int eDVBServiceStream::doRecord()
 		m_record->connectEvent(sigc::mem_fun(*this, &eDVBServiceStream::recordEvent), m_con_record_event);
 
 		// Attach speculative software descrambler for encrypted channels
-		setupSpeculativeDescrambler();
+		if (csa_is_auto() || csa_from_whitelist()) {
+			setupSpeculativeDescrambler();
+		}
 	}
 
 	// Try to attach descrambler if not yet done (PMT might not have been available earlier)
-	if (m_record && !m_csa_session)
+	if ((csa_is_auto() || csa_from_whitelist()) && m_record && !m_csa_session)
 	{
 		setupSpeculativeDescrambler();
 	}
@@ -555,6 +558,10 @@ void eDVBServiceStream::setupSpeculativeDescrambler()
 		eDebug("[eDVBServiceStream] FTA channel, no descrambler needed");
 		return;
 	}
+
+	// libdvbcsa missing -> software descrambling not possible, skip all setup
+	if (!eDVBCSAEngine::isAvailable())
+		return;
 
 	eDebug("[eDVBServiceStream] Encrypted channel, creating CSA session");
 
